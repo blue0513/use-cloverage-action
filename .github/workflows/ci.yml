@@ -1,0 +1,10 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  coverage:
+    uses: blue0513/cloverage-action/.github/workflows/ci.yml@feature/continue-on-error
+    secrets: inherit

@@ -4,7 +4,33 @@ on:
   push:
   pull_request:
 
+env:
+  PR_COVERAGE_FILE: "coverage-report"
+
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+      - uses: DeLaGuardo/setup-clojure@10.2
+        with:
+          lein: 2.9.8
+
+      - name: Calculate coverage of this branch
+        run: lein cloverage --lcov --no-colorize -o "${{ env.COVERAGE_DIR }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "${{ env.PR_COVERAGE_FILE }}-${{ github.run_id }}"
+          path: "${{ env.COVERAGE_DIR }}/lcov.info"
+
   coverage:
     uses: blue0513/cloverage-action/.github/workflows/ci.yml@main
     secrets: inherit
+    with:
+      uploaded-path: "${{ env.PR_COVERAGE_FILE }}-${{ github.run_id }}"

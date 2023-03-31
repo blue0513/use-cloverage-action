@@ -5,7 +5,7 @@ on:
   pull_request:
 
 env:
-  PR_COVERAGE_FILE: "coverage-report"
+  COVERAGE_DIR: "target/coverage"
 
 jobs:
   test:

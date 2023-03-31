@@ -26,11 +26,11 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "${{ env.PR_COVERAGE_FILE }}-${{ github.run_id }}"
+          name: "coverage-report-${{ github.run_id }}"
           path: "${{ env.COVERAGE_DIR }}/lcov.info"
 
   coverage:
     uses: blue0513/cloverage-action/.github/workflows/ci.yml@main
     secrets: inherit
     with:
-      uploaded-path: "${{ env.PR_COVERAGE_FILE }}-${{ github.run_id }}"
+      uploaded-path: "coverage-report-${{ github.run_id }}"
